@@ -3,7 +3,7 @@ function res = PatronesMedios()
 detector_cara = vision.CascadeObjectDetector(); %Nos detecta por defecto caras
 res = zeros(143,143,72);
 for j=1:72
-    b4=zeros(143,143);
+    b4=zeros(143,143,3);
     for i=1:15
         aux = imread(['Rostro_' num2str(j) '.' num2str(i) '.jpg']);
         bbox = step(detector_cara, aux)
@@ -13,7 +13,8 @@ for j=1:72
             b1 = edge(b,'sobel','vertical');
             b3 = edge(b,'sobel','horizontal');
             b3 = b1+b3;
-            b4 = b4+b3;
+            b2 = b3==1;
+            b4 = b4 + aux(b2));
         end
     end
     res(:,:,j) = b4/15;
